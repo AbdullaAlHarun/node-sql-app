@@ -5,6 +5,7 @@ const authenticateUser = require('../middleware/authMiddleware');
 const router = express.Router();
 
 router.post('/login', loginUser);  // No auth required for login
+router.get('/', authMiddleware, getUsers); 
 
 router.get('/', authenticateUser, getUsers);  // Protected route
 router.post('/', createUser);
