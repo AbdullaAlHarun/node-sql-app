@@ -1,15 +1,16 @@
 const express = require('express');
 const { getUsers, createUser, updateUser, deleteUser, loginUser } = require('../controllers/userController');
-const authenticateUser = require('../middleware/authMiddleware');
+const authenticateUser = require('../middleware/authMiddleware'); // Ensure this is correct
 
 const router = express.Router();
 
-router.post('/login', loginUser);  // No auth required for login
-router.get('/', authMiddleware, getUsers); 
+// Public route for login
+router.post('/login', loginUser);
 
-router.get('/', authenticateUser, getUsers);  // Protected route
+// Protected routes that require authentication
+router.get('/', authenticateUser, getUsers);
 router.post('/', createUser);
-router.put('/:id', authenticateUser, updateUser);  // Protected route
-router.delete('/:id', authenticateUser, deleteUser);  // Protected route
+router.put('/:id', authenticateUser, updateUser);
+router.delete('/:id', authenticateUser, deleteUser);
 
 module.exports = router;
