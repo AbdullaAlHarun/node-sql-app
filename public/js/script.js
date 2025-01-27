@@ -1,36 +1,37 @@
-const API_URL = 'https://node-sql-hxl7yb1i9-abdulla-al-haruns-projects.vercel.app/api';
+document.querySelector('#loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-// Fetch all posts and display them on home.html
-async function fetchPosts() {
-  const response = await fetch(`${API_URL}/posts`);
-  const posts = await response.json();
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
 
-  const postsContainer = document.getElementById('posts');
-  postsContainer.innerHTML = '';
+    if (!email || !password) {
+        alert('Please fill in all fields');
+        return;
+    }
 
-  posts.forEach(post => {
-    postsContainer.innerHTML += `
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold">${post.title}</h3>
-        <p class="text-gray-600">${post.content}</p>
-      </div>
-    `;
-  });
-}
+    try {
+        const response = await fetch('https://node-sql-hxl7yb1i9-abdulla-al-haruns-projects.vercel.app/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password }),
+            credentials: 'include'  // Ensures cookies are sent if needed
+        });
 
-// Create a new post
-document.getElementById('createPostForm')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const title = document.getElementById('title').value;
-  const content = document.getElementById('content').value;
+        if (!response.ok) {
+            throw new Error('Invalid email or password');
+        }
 
-  await fetch(`${API_URL}/posts`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, content })
-  });
+        const data = await response.json();
+        alert(data.message);
 
-  window.location.href = 'home.html';
+        // Store session data and redirect to home
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = 'home.html';
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Login failed. Please check your credentials.');
+    }
 });
-
-document.addEventListener('DOMContentLoaded', fetchPosts);

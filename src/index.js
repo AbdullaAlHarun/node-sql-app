@@ -7,21 +7,33 @@ const postRoutes = require('./routes/postRoutes');
 
 const app = express();
 
-// Allow specific frontend URL or all origins during development
+// CORS Configuration
+const allowedOrigins = [
+  'https://node-sql-642pkwfug-abdulla-al-haruns-projects.vercel.app', 
+  'https://node-sql-jtie4n2nd-abdulla-al-haruns-projects.vercel.app', 
+  'http://localhost:5000'  // Include localhost for testing
+];
+
 app.use(cors({
-  origin: [
-    'https://node-sql-jtie4n2nd-abdulla-al-haruns-projects.vercel.app', 
-    'https://node-sql-amff373di-abdulla-al-haruns-projects.vercel.app'  // Add other allowed origins here
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
-  credentials: true // Allow cookies if needed
+  credentials: true // Allow cookies and credentials
 }));
 
 // Middleware
 app.use(express.json());
 
-// Use routes
+// Serve static files
+app.use(express.static('public'));
+
+// API routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 
