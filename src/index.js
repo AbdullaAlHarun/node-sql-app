@@ -9,9 +9,9 @@ const app = express();
 
 // CORS Configuration
 const allowedOrigins = [
+  'https://node-sql-m04mvdllh-abdulla-al-haruns-projects.vercel.app', 
   'https://node-sql-642pkwfug-abdulla-al-haruns-projects.vercel.app', 
-  'https://node-sql-jtie4n2nd-abdulla-al-haruns-projects.vercel.app', 
-  'http://localhost:5000'  // Include localhost for testing
+  'http://localhost:5000' // Add localhost for testing purposes
 ];
 
 app.use(cors({
@@ -24,16 +24,13 @@ app.use(cors({
   },
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
-  credentials: true // Allow cookies and credentials
+  credentials: true  // Allow cookies and authorization headers
 }));
 
 // Middleware
 app.use(express.json());
 
-// Serve static files
-app.use(express.static('public'));
-
-// API routes
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 

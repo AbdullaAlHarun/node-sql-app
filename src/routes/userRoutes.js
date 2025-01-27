@@ -53,6 +53,7 @@ router.post(
 
 // Update user
 router.put('/:id', updateUser);
+router.post('/login', loginUser);
 
 // Delete user
 router.delete('/:id', deleteUser);

@@ -13,10 +13,10 @@ document.querySelector('#loginForm').addEventListener('submit', async function (
         const response = await fetch('https://node-sql-hxl7yb1i9-abdulla-al-haruns-projects.vercel.app/api/users/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, password }),
-            credentials: 'include'  // Ensures cookies are sent if needed
+            credentials: 'include',  // To include cookies if needed
         });
 
         if (!response.ok) {
@@ -26,7 +26,7 @@ document.querySelector('#loginForm').addEventListener('submit', async function (
         const data = await response.json();
         alert(data.message);
 
-        // Store session data and redirect to home
+        // Store session and redirect
         localStorage.setItem('user', JSON.stringify(data.user));
         window.location.href = 'home.html';
 
