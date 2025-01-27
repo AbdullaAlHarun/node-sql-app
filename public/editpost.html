@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Post</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <nav class="bg-blue-600 text-white py-4 px-6 flex justify-between">
+    <a href="home.html" class="hover:underline">Back to Home</a>
+    <h1 class="text-xl font-bold">Edit Post</h1>
+  </nav>
+
+  <div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-6">Edit Your Post</h2>
+    <form id="editPostForm">
+      <input type="hidden" id="postId">
+      <input type="text" id="editTitle" placeholder="Post Title" class="w-full border border-gray-300 p-2 mb-4 rounded" required>
+      <textarea id="editContent" placeholder="Post Content" class="w-full border border-gray-300 p-2 mb-4 rounded" required></textarea>
+      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Update</button>
+    </form>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
