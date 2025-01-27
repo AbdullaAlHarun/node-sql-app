@@ -1,3 +1,5 @@
+const API_URL = 'https://node-sql-l75undl3c-abdulla-al-haruns-projects.vercel.app/api/users/login';
+
 document.querySelector('#loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -10,13 +12,12 @@ document.querySelector('#loginForm').addEventListener('submit', async function (
     }
 
     try {
-        const response = await fetch('https://node-sql-hxl7yb1i9-abdulla-al-haruns-projects.vercel.app/api/users/login', {
+        const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, password }),
-            credentials: 'include'  // Ensures cookies are sent if needed
         });
 
         if (!response.ok) {
@@ -24,12 +25,9 @@ document.querySelector('#loginForm').addEventListener('submit', async function (
         }
 
         const data = await response.json();
-        alert(data.message);
-
-        // Store session and redirect
+        alert('Login successful!');
         localStorage.setItem('user', JSON.stringify(data.user));
         window.location.href = 'home.html';
-
     } catch (error) {
         console.error('Error:', error);
         alert('Login failed. Please check your credentials.');

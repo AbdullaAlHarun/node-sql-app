@@ -55,6 +55,7 @@ router.post(
 router.put('/:id', updateUser);
 router.post('/login', loginUser);
 
+
 // Delete user
 router.delete('/:id', deleteUser);
 
