@@ -1,42 +1,35 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 require('dotenv').config();
-
 
 const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 
 const app = express();
 
-
+// Allow specific frontend URL or all origins during development
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*', 
+  origin: [
+    'https://node-sql-jtie4n2nd-abdulla-al-haruns-projects.vercel.app', 
+    'https://node-sql-amff373di-abdulla-al-haruns-projects.vercel.app'  // Add other allowed origins here
+  ],
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
+  credentials: true // Allow cookies if needed
 }));
 
+// Middleware
 app.use(express.json());
 
-
-app.use(express.static(path.join(__dirname, '../public')));
-
-
+// Use routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
-
 
 app.get('/', (req, res) => {
   res.send('Server is running successfully');
 });
 
-
-app.use((req, res) => {
-  res.status(404).json({ error: 'Resource not found' });
-});
-
-// Start the server
 const PORT = process.env.APP_PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

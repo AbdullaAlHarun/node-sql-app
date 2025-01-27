@@ -9,6 +9,9 @@ const {
 } = require('../controllers/userController');
 
 const router = express.Router();
+const cors = require('cors');
+router.use(cors());
+
 
 // GET all users
 router.get('/', getUsers);
