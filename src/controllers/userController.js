@@ -1,7 +1,5 @@
-const db = require('../config/db');
-const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-// User login
 exports.loginUser = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -14,9 +12,7 @@ exports.loginUser = (req, res) => {
     }
 
     db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Database error: ' + err.message });
-        }
+        if (err) return res.status(500).json({ error: 'Database error: ' + err.message });
 
         if (results.length === 0) {
             return res.status(401).json({ error: 'Invalid email or password' });
@@ -29,9 +25,15 @@ exports.loginUser = (req, res) => {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
 
+        // Generate JWT token
+        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+            expiresIn: '1h',
+        });
+
         res.status(200).json({
             message: 'Login successful',
-            user: { id: user.id, name: user.name, email: user.email }
+            token,
+            user: { id: user.id, name: user.name, email: user.email },
         });
     });
 };

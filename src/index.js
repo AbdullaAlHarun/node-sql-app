@@ -2,42 +2,38 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+// Configure CORS properly with allowed frontend URLs
+const allowedOrigins = [
+    'https://node-sql-nc24oy92i-abdulla-al-haruns-projects.vercel.app', // Your deployed frontend
+    'http://localhost:5000' // Local testing (optional)
+];
+
+const corsOptions = {
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
+
+const app = express();
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// Import routes
 const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 
-const app = express();
-
-// Update CORS Configuration with your frontend URL
-const allowedOrigins = [
-  'https://node-sql-m04mvdllh-abdulla-al-haruns-projects.vercel.app',  // Frontend URL
-  'http://localhost:5000'  // Allow localhost for local testing
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: 'GET, POST, PUT, DELETE',
-  allowedHeaders: 'Content-Type, Authorization',
-  credentials: true  // Allow cookies and credentials if needed
-}));
-
-// Middleware
-app.use(express.json());
-
-// API Routes
+// Use routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 
+// Base route
 app.get('/', (req, res) => {
-  res.send('Server is running successfully');
+    res.send('Server is running');
 });
 
+// Start server
 const PORT = process.env.APP_PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
