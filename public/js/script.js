@@ -1,4 +1,4 @@
-const API_URL = 'https://node-sql-l75undl3c-abdulla-al-haruns-projects.vercel.app/api/users';
+const API_URL = 'https://node-sql-l75undl3c-abdulla-al-haruns-projects.vercel.app/api/users'; 
 
 // Handle login
 document.getElementById('login-form')?.addEventListener('submit', async (event) => {
@@ -13,7 +13,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (event) 
   }
 
   try {
-    const response = await fetch(`${API_URL}/login`, {  // Fixed the template literal syntax
+    const response = await fetch(${API_URL}/login, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ document.getElementById('register-form')?.addEventListener('submit', async (even
   }
 
   try {
-    const response = await fetch(`${API_URL}/register`, {  // Fixed the template literal syntax
+    const response = await fetch(${API_URL}/register, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,10 +89,10 @@ async function fetchPosts() {
     const postContainer = document.getElementById('posts');
 
     postContainer.innerHTML = posts.map(post => 
-      `<div class="post">
+      <div class="post">
         <h2>${post.title}</h2>
         <p>${post.content}</p>
-      </div>`
+      </div>
     ).join('');
   } catch (error) {
     console.error('Error fetching posts:', error.message);
