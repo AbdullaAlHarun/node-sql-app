@@ -2,7 +2,7 @@ const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 
 exports.loginUser = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow CORS for all requests
+    res.setHeader('Access-Control-Allow-Origin', 'https://node-sql-m04mvdllh-abdulla-al-haruns-projects.vercel.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
@@ -13,38 +13,23 @@ exports.loginUser = async (req, res) => {
     }
 
     try {
-        // Query the database wrapped in a promise for async handling
-        const getUserByEmail = (email) => {
-            return new Promise((resolve, reject) => {
-                db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
-                    if (err) reject(err);
-                    else resolve(results);
-                });
-            });
-        };
+        db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+            if (err) return res.status(500).json({ error: 'Database error: ' + err.message });
 
-        const results = await getUserByEmail(email);
+            if (results.length === 0) {
+                return res.status(401).json({ error: 'Invalid email or password' });
+            }
 
-        if (results.length === 0) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
+            const user = results[0];
+            const isMatch = await bcrypt.compare(password, user.password);
 
-        const user = results[0];
+            if (!isMatch) {
+                return res.status(401).json({ error: 'Invalid email or password' });
+            }
 
-        // Compare hashed password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-
-        // Login successful
-        res.status(200).json({
-            message: 'Login successful',
-            user: { id: user.id, name: user.name, email: user.email },
+            res.status(200).json({ message: 'Login successful', user: { id: user.id, name: user.name, email: user.email } });
         });
-
     } catch (error) {
-        console.error('Error:', error.message);
         res.status(500).json({ error: 'Server error' });
     }
 };

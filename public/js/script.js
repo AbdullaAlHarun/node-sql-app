@@ -13,10 +13,10 @@ document.querySelector('#loginForm').addEventListener('submit', async function (
         const response = await fetch('https://node-sql-hxl7yb1i9-abdulla-al-haruns-projects.vercel.app/api/users/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, password }),
-            credentials: 'include',  // To include cookies if needed
+            credentials: 'include'  // Ensures cookies are sent if needed
         });
 
         if (!response.ok) {

@@ -7,11 +7,10 @@ const postRoutes = require('./routes/postRoutes');
 
 const app = express();
 
-// CORS Configuration
+// Update CORS Configuration with your frontend URL
 const allowedOrigins = [
-  'https://node-sql-m04mvdllh-abdulla-al-haruns-projects.vercel.app', 
-  'https://node-sql-642pkwfug-abdulla-al-haruns-projects.vercel.app', 
-  'http://localhost:5000' // Add localhost for testing purposes
+  'https://node-sql-m04mvdllh-abdulla-al-haruns-projects.vercel.app',  // Frontend URL
+  'http://localhost:5000'  // Allow localhost for local testing
 ];
 
 app.use(cors({
@@ -22,15 +21,15 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-  credentials: true  // Allow cookies and authorization headers
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+  credentials: true  // Allow cookies and credentials if needed
 }));
 
 // Middleware
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 
