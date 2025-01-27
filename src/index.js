@@ -10,7 +10,7 @@ const app = express();
 // CORS setup allowing frontend domain
 const allowedOrigins = [
   'https://node-sql-44uzkveom-abdulla-al-haruns-projects.vercel.app',  // Replace with correct frontend
-  'http://localhost:5000'
+  'http://localhost:5500'
 ];
 
 app.use(cors({
@@ -23,6 +23,8 @@ app.use(cors({
   },
   credentials: true
 }));
+
+
 
 // Middleware
 app.use(express.json());

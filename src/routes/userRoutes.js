@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/login', loginUser);
 
 // Protected routes that require authentication
-router.get('/', authenticateUser, getUsers);
+router.get('/',  getUsers);
 router.post('/', createUser);
 router.put('/:id', authenticateUser, updateUser);
 router.delete('/:id', authenticateUser, deleteUser);
