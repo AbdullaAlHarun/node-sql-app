@@ -1,11 +1,14 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { getUsers, createUser } = require('../controllers/userController');
+const { getUsers, createUser, updateUser, deleteUser } = require('../controllers/userController');
 
 const router = express.Router();
 
 // GET all users route
 router.get('/', getUsers);
+router.post('/', createUser);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 // POST a new user with validation
 router.post(

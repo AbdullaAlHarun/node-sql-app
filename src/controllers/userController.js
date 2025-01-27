@@ -36,3 +36,34 @@ exports.createUser = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+// Update user by ID
+exports.updateUser = (req, res) => {
+    const { id } = req.params;
+    const { name, email } = req.body;
+  
+    db.query(
+      'UPDATE users SET name = ?, email = ? WHERE id = ?',
+      [name, email, id],
+      (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+        res.json({ message: 'User updated successfully' });
+      }
+    );
+  };
+// Delete user by ID
+exports.deleteUser = (req, res) => {
+    const { id } = req.params;
+  
+    db.query('DELETE FROM users WHERE id = ?', [id], (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      res.json({ message: 'User deleted successfully' });
+    });
+  };
+    
